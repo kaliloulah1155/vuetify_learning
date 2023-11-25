@@ -12,6 +12,8 @@ import { mdi } from "vuetify/iconsets/mdi";
 // Vuetify
 import { createVuetify } from 'vuetify'
 
+
+
 export default createVuetify({
   icons: {
     defaultSet: "md",
@@ -21,5 +23,6 @@ export default createVuetify({
       mdi,
     },
   },
+  
  
 });
