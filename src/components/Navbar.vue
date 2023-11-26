@@ -1,6 +1,15 @@
 <template>
     <nav>
         <v-navigation-drawer app v-model="drawer" location="left" color="primary">
+            <v-col class="text-center mt-5">
+                <v-avatar color="grey-lighten-2" size="100">
+                    <v-img src="/avatar-1.png" alt="avatar"></v-img>
+                </v-avatar>
+                <p class="text-center text-subtitle-1 mt-1">
+                    The Net Ninja
+                </p>
+            </v-col>
+
             <v-list>
                 <v-list-item v-for="link in links" :key="link.icon" router :to="link.route">
                     <template v-slot:prepend>

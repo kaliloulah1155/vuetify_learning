@@ -2,13 +2,27 @@
   <div class="dashboard">
     <h1 class="text-subtitle-1 text-grey">Dashboard</h1>
     <v-container class="my-5">
+       
+
+      <v-row class="mb-3 ml-1">
+        <v-btn size="small" flat color="grey" @click="sortBy('title')" active>
+          <v-icon size="small">folder</v-icon>
+          <span class="caption text-lowercase">By project name</span>
+          <v-tooltip activator="parent" location="top">Sorts project by name</v-tooltip>
+        </v-btn>
+        <v-btn size="small" flat color="grey" class="mx-2" @click="sortBy('person')" active>
+          <v-icon size="small">person</v-icon>
+          <span class="caption text-lowercase">By person</span>
+           <v-tooltip activator="parent" location="top">Sorts project by person</v-tooltip>
+        </v-btn>
+      </v-row>
       <v-card flat class="pa-3" v-for="project in projects" :key="project.title">
-        <v-row  :class="` mb-1  project ${project.status}`">
+        <v-row :class="` mb-1  project ${project.status}`">
           <v-col xs="12" md="6">
             <div class="caption text-grey">
               Project title
             </div>
-            <div>  {{ project.title }}</div>
+            <div> {{ project.title }}</div>
           </v-col>
           <v-col xs="6" sm="4" md="2">
             <div class="caption text-grey">
@@ -23,15 +37,15 @@
             <div> {{ project.due }}</div>
           </v-col>
           <v-col xs="2" sm="4" md="2">
-           
-            <div class="text-right"> 
-              <v-chip size="small" :class="`${project.status} caption my-2  `"   >
-                   {{ project.status }} 
-                </v-chip>
+
+            <div class="text-right">
+              <v-chip size="small" :class="`${project.status} caption my-2  `">
+                {{ project.status }}
+              </v-chip>
             </div>
           </v-col>
         </v-row>
-             <v-divider></v-divider>
+        <v-divider></v-divider>
       </v-card>
     </v-container>
   </div>
@@ -52,30 +66,39 @@ export default defineComponent({
         { title: 'Create a community forum', person: 'Gouken', due: '20th Oct 2018', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!' },
       ]
     }
+  },
+  methods: {
+    sortBy(params) {
+      this.projects.sort((a, b) => a[params] < b[params] ? -1 : 1)
+    }
   }
 });
 </script>
 <style scoped>
-.project.complete{
-  border-left:4px solid #3cd1c2
-}
-.project.ongoing{
-  border-left:4px solid orange
-}
-.project.overdue{
-  border-left:4px solid tomato
+.project.complete {
+  border-left: 4px solid #3cd1c2
 }
 
-.v-chip.complete{
-  color:white;
+.project.ongoing {
+  border-left: 4px solid orange
+}
+
+.project.overdue {
+  border-left: 4px solid tomato
+}
+
+.v-chip.complete {
+  color: white;
   background: #3cd1c2;
 }
-.v-chip.ongoing{
-   color:white;
+
+.v-chip.ongoing {
+  color: white;
   background: #ffaa2c;
 }
-.v-chip.overdue{
-   color:white;
+
+.v-chip.overdue {
+  color: white;
   background: #f83e70;
 }
 </style>
