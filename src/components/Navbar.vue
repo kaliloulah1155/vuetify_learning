@@ -9,6 +9,9 @@
                     The Net Ninja
                 </p>
             </v-col>
+            <v-col class="mt-4 mb-3 text-center">
+                <Popup />
+            </v-col>
 
             <v-list>
                 <v-list-item v-for="link in links" :key="link.icon" router :to="link.route">
@@ -61,12 +64,13 @@
 
 <script>
 import { defineComponent } from 'vue';
+import Popup from './Popup';
 
 // Components
 
 export default defineComponent({
     name: 'NavbarComponent',
-    components: {},
+    components: { Popup },
     data() {
         return {
             drawer: true,
