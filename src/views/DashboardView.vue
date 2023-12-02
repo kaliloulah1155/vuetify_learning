@@ -2,7 +2,7 @@
   <div class="dashboard">
     <h1 class="text-subtitle-1 text-grey">Dashboard</h1>
     <v-container class="my-5">
-       
+
 
       <v-row class="mb-3 ml-1">
         <v-btn size="small" flat color="grey" @click="sortBy('title')" active>
@@ -13,7 +13,7 @@
         <v-btn size="small" flat color="grey" class="mx-2" @click="sortBy('person')" active>
           <v-icon size="small">person</v-icon>
           <span class="caption text-lowercase">By person</span>
-           <v-tooltip activator="parent" location="top">Sorts project by person</v-tooltip>
+          <v-tooltip activator="parent" location="top">Sorts project by person</v-tooltip>
         </v-btn>
       </v-row>
       <v-card flat class="pa-3" v-for="project in projects" :key="project.title">
@@ -34,7 +34,8 @@
             <div class="caption text-grey">
               Due by
             </div>
-            <div> {{ project.due }}</div>
+          
+            <div> {{ project.due?.split('-').reverse().join('/') ?? '' }}</div>
           </v-col>
           <v-col xs="2" sm="4" md="2">
 
@@ -53,25 +54,38 @@
  
 <script>
 import { defineComponent } from 'vue';
+import db from '@/fb'
+import { collection, getDocs } from "firebase/firestore"
+ 
 // Components
 export default defineComponent({
   name: 'DashboardView',
   components: {},
   data() {
     return {
-      projects: [
-        { title: 'Design a new website', person: 'The Net Ninja', due: '1st Jan 2019', status: 'ongoing', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!' },
-        { title: 'Code up the homepage', person: 'Chun Li', due: '10th Jan 2019', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!' },
-        { title: 'Design video thumbnails', person: 'Ryu', due: '20th Dec 2018', status: 'complete', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!' },
-        { title: 'Create a community forum', person: 'Gouken', due: '20th Oct 2018', status: 'overdue', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!' },
-      ]
+      projects: []
     }
+  },
+  mounted() {
+    // Define a reactive reference to hold the data
+    this.fetchData();
   },
   methods: {
     sortBy(params) {
       this.projects.sort((a, b) => a[params] < b[params] ? -1 : 1)
-    }
-  }
+    },
+    async fetchData() {
+      let projectsData = []
+      const projectsCollection = collection(db, 'projects');
+      const querySnapshot = await getDocs(projectsCollection);
+      // Map the data from the query snapshot
+      projectsData = querySnapshot.docs.map(doc => {
+        return doc.data()
+      });
+      this.projects = projectsData
+    },
+  },
+ 
 });
 </script>
 <style scoped>

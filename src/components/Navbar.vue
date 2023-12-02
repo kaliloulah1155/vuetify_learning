@@ -1,5 +1,11 @@
 <template>
     <nav>
+        <v-snackbar  v-model="snackbar" :timeout="4000" location="top" color="success">
+             <span>Awesome ! You added a new project</span>
+             <v-btn  variant="plain" color="white ml-2" @click="snackbar =false">
+                Close
+             </v-btn>
+        </v-snackbar>
         <v-navigation-drawer app v-model="drawer" location="left" color="primary">
             <v-col class="text-center mt-5">
                 <v-avatar color="grey-lighten-2" size="100">
@@ -10,7 +16,7 @@
                 </p>
             </v-col>
             <v-col class="mt-4 mb-3 text-center">
-                <Popup />
+                <Popup @project-added="snackbar=true" />
             </v-col>
 
             <v-list>
@@ -74,6 +80,7 @@ export default defineComponent({
     data() {
         return {
             drawer: true,
+            snackbar:false,
             links: [
                 { icon: 'dashboard', text: 'Dashboard', route: '/' },
                 { icon: 'folder', text: 'My Projects', route: '/projects' },

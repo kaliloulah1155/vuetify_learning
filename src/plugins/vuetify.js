@@ -6,6 +6,12 @@ import 'vuetify/styles'
 import { aliases, md } from "vuetify/iconsets/md";
 import { mdi } from "vuetify/iconsets/mdi";
 
+// Translations provided by Vuetify
+import { en, fr } from "vuetify/locale";
+import DateFnsAdapter from "@date-io/date-fns";
+import enUS from "date-fns/locale/en-US";
+import frFr from "date-fns/locale/fr";
+ 
  
 
 
@@ -23,6 +29,16 @@ export default createVuetify({
       mdi,
     },
   },
-  
- 
+  locale: {
+    locale: "fr",
+    fallback: "en",
+    messages: { fr, en },
+  },
+  date: {
+    adapter: DateFnsAdapter,
+    locale: {
+      en: enUS,
+      fr: frFr,
+    },
+  },
 });
